@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgis/postgis:15-3.3
+    container_name: marineverse_postgis
+    environment:
+      POSTGRES_DB: marineverse
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d marineverse"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: marineverse_backend
+    environment:
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/marineverse
+      SECRET_KEY: super-secret-key-for-marineverse-digital-twin
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+  ingestion:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: marineverse_ingestion
+    environment:
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/marineverse
+    depends_on:
+      db:
+        condition: service_healthy
+    command: sh -c "python seed_data.py && python ingest_marine_data.py"
+
+volumes:
+  postgres_data:

@@ -4,3 +4,16 @@ sqlalchemy
 geoalchemy2
 pydantic[email]
 psycopg2-binary
+pandas
+geopandas
+xarray
+netCDF4
+requests
+httpx
+pytest
+passlib[bcrypt]
+pyjwt
+copernicusmarine
+websockets
+
+
