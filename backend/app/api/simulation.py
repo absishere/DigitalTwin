@@ -45,30 +45,44 @@ def get_simulation_status(sim_id: uuid.UUID, db: Session = Depends(get_db)):
     return {"current_eta": datetime.now(timezone.utc), "alerts": []}
 
 @router.websocket("/{sim_id}/live")
-async def live_position(websocket: WebSocket, sim_id: str):
+async def live_position(websocket: WebSocket, sim_id: str, db: Session = Depends(get_db)):
     await websocket.accept()
     
-    # Starting coordinates (e.g., leaving Mumbai)
-    current_lat = 18.9438
-    current_lon = 72.8223
+    current_lat, current_lon = 18.9438, 72.8223 # e.g., Leaving Mumbai
     
     try:
         while True:
-            # Simulate vessel movement along the route
+            # 1. Update Position
             current_lat -= 0.05
             current_lon += 0.05
+            
+            # 2. Risk Detection: Check if current position hits bad weather
+            # Using PostGIS ST_DWithin to check a 50km radius for unsafe marine snapshots
+            risk_query = """
+                SELECT wave_height_m, wind_speed_knots FROM marine_data_snapshots 
+                WHERE ST_DWithin(location, ST_SetSRID(ST_MakePoint(:lon, :lat), 4326), 0.5)
+                AND is_unsafe = true LIMIT 1;
+            """
+            risk_result = db.execute(text(risk_query), {"lon": current_lon, "lat": current_lat}).fetchone()
             
             payload = {
                 "lat": current_lat,
                 "lon": current_lon,
-                "speed": random.uniform(14.0, 16.5),  # Knots
-                "heading": 135.0 # Degrees
+                "speed": random.uniform(14.0, 16.5),
+                "heading": 135.0,
+                "alerts": [],
+                "route_status": "optimal"
             }
             
-            await websocket.send_json(payload)
+            # 3. Dynamic Route Planning Trigger
+            if risk_result:
+                payload["alerts"].append(f"Unsafe conditions detected: {risk_result.wave_height_m}m waves.")
+                payload["route_status"] = "rerouting"
+                # Implement alternate heading/waypoint logic here
+                payload["heading"] = 90.0 
             
-            # Control the frequency of the live updates (e.g., every 2 seconds)
-            await asyncio.sleep(2)
+            await websocket.send_json(payload)
+            await asyncio.sleep(2) # Stream frequency
             
     except WebSocketDisconnect:
-        print(f"Simulation {sim_id} disconnected.")
+        print(f"Simulation {sim_id} tracking ended.")
