@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     image: postgis/postgis:15-3.3
@@ -7,7 +5,7 @@ services:
     environment:
       POSTGRES_DB: marineverse
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: 123456
     ports:
       - "5432:5432"
     volumes:
@@ -24,7 +22,7 @@ services:
       dockerfile: Dockerfile
     container_name: marineverse_backend
     environment:
-      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/marineverse
+      DATABASE_URL: postgresql+psycopg2://postgres:123456@db:5432/marineverse
       SECRET_KEY: super-secret-key-for-marineverse-digital-twin
     ports:
       - "8000:8000"
@@ -39,7 +37,7 @@ services:
       dockerfile: Dockerfile
     container_name: marineverse_ingestion
     environment:
-      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/marineverse
+      DATABASE_URL: postgresql+psycopg2://postgres:123456@db:5432/marineverse
     depends_on:
       db:
         condition: service_healthy

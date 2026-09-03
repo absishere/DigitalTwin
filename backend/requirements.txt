@@ -1,19 +1,39 @@
+# API server
 fastapi
-uvicorn
-sqlalchemy
-geoalchemy2
+uvicorn[standard]
 pydantic[email]
+python-dotenv
+
+# Database and geospatial support
+sqlalchemy
 psycopg2-binary
-pandas
+geoalchemy2
+shapely
 geopandas
+
+# Data ingestion
+pandas
+numpy
 xarray
 netCDF4
 requests
 httpx
-pytest
-passlib[bcrypt]
-pyjwt
 copernicusmarine
 websockets
 
+# Authentication
+passlib[bcrypt]
+pyjwt
 
+# AI / LangChain / vector search
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.5.1+cpu ; platform_system == "Linux"
+langchain-core
+langchain-community
+langchain-ollama
+langchain-huggingface
+chromadb
+sentence-transformers
+
+# Tests
+pytest

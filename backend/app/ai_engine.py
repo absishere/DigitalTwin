@@ -1,9 +1,9 @@
 import re
 
-from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import FewShotPromptTemplate, PromptTemplate
+from langchain_core.prompts import PromptTemplate
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_ollama import ChatOllama
 
 # 1. Initialize local LLM and Embeddings

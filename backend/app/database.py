@@ -1,11 +1,14 @@
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from dotenv import load_dotenv
 
-# We will read this from the .env file later, but we will default to a local PostGIS string
+# Load DATABASE_URL from .env/backend/.env before the SQLAlchemy engine is created.
+load_dotenv()
+
 SQLALCHEMY_DATABASE_URL = os.getenv(
-    "DATABASE_URL", 
-    "postgresql+psycopg2://postgres:postgres@localhost:5432/marineverse"
+    "DATABASE_URL",
+    "postgresql+psycopg2://postgres:123456@localhost:5432/marineverse",
 )
 
 # Initialize the SQLAlchemy engine
