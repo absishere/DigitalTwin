@@ -1,0 +1,223 @@
+.panel {
+  position: fixed;
+  top: var(--topbar-height);
+  left: 0;
+  bottom: var(--statusbar-height);
+  width: 320px;
+  background: rgba(10, 22, 40, 0.96);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
+  animation: slide-in-right 250ms ease;
+  overflow-y: auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon {
+  color: #00b4d8;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e8edf5;
+}
+
+.timeDisplay {
+  font-size: 13px;
+  font-weight: 600;
+  color: #00b4d8;
+  font-family: var(--font-mono);
+}
+
+.section {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.sectionTitle {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #5a6a80;
+  margin-bottom: 10px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #8899b0;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e8edf5;
+}
+
+.sliderGroup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sliderLabel {
+  font-size: 11px;
+  color: #8899b0;
+  font-weight: 500;
+}
+
+.slider {
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #00b4d8;
+  cursor: pointer;
+}
+
+.progressBar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #00b4d8, #0077b6);
+  border-radius: 3px;
+  transition: width 300ms ease;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+}
+
+.label {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #5a6a80;
+}
+
+.value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e8edf5;
+  font-family: var(--font-mono);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+}
+
+.shipName {
+  font-size: 12px;
+  font-weight: 600;
+  color: #e8edf5;
+}
+
+.shipMeta {
+  font-size: 11px;
+  color: #5a6a80;
+}
+
+.alertItem {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+}
+
+.alertTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #e8edf5;
+  margin-bottom: 2px;
+}
+
+.alertMsg {
+  font-size: 11px;
+  color: #8899b0;
+  line-height: 1.4;
+}
+
+.warning {
+  color: #f59e0b;
+}
+
+@media (max-width: 768px) {
+  .panel {
+    width: 100%;
+  }
+}
